@@ -1,0 +1,23 @@
+# Kompilacja i pliki binarne
+*.o
+*.a
+*.so
+whisper-clipboard
+asi-echoclip
+
+# Bazy danych i pliki tymczasowe
+*.db
+*.db-journal
+*.wav
+*.mp3
+
+# Środowisko Nix
+result
+result-*
+
+# Edytory i system
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
