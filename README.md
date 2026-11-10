@@ -1,59 +1,67 @@
 # asi-echoclip 🎙️📋
 
-**asi-echoclip** to lekka, natywna aplikacja C++ (GTK3 / Wayland / Hyprland) służąca jako asystent mowy i schowka. Umożliwia błyskawiczne dyktowanie głosem (STT), transkrypcję przez lokalny serwer Whisper.cpp, automatyczne kopiowanie tekstu do schowka (`wl-copy`), podgląd widma audio w czasie rzeczywistym (FFT) oraz trwałą historię w SQLite.
+[![Platform](https://img.shields.io/badge/Platform-Linux%20%7C%20Wayland%20%7C%20Hyprland-blue.svg)](https://hyprland.org)
+[![Language](https://img.shields.io/badge/Language-C%2B%2B17-orange.svg)]()
+[![Toolkit](https://img.shields.io/badge/GUI-GTKmm%203.0-green.svg)](https://www.gtkmm.org)
+[![License](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](LICENSE)
 
-Projekt został zaprojektowany z myślą o dalszym rozwoju w kierunku pełnego dwukierunkowego asystenta mowy (w planach: integracja lokalnego silnika TTS do czytania zaznaczonego tekstu na głos).
+[English](README.md) | [Polski](README.pl.md)
 
----
+**asi-echoclip** is a lightweight, native C++ desktop voice and clipboard assistant designed for Linux / Wayland (specifically tailored for Hyprland). It enables instant voice dictation (Speech-to-Text) powered by a local Whisper.cpp server, automatic clipboard synchronization (`wl-copy`), real-time Fast Fourier Transform (FFT) spectrum audio visualization, and persistent history tracking with SQLite.
 
-## 🚀 Główne funkcje
-
-- **Globalny skrót klawiszowy (`Super + B` / `$mainMod + B`)**:
-  - Błyskawicznie wywołuje wycentrowane, pływające okno asystenta na pulpicie Wayland (Hyprland).
-- **Transkrypcja na żywo (STT)**:
-  - Sterowanie nagrywaniem jednym klawiszem (`Spacja`) lub dedykowanym przyciskiem.
-  - **Wizualizator widma Fouriera (FFT)** w czasie rzeczywistym (40 pasm z gradientem i markerami Peak Caps) — pewność, że mikrofon poprawnie rejestruje Twój głos.
-  - Stoper nagrywania na żywo.
-  - Automatyczne wysyłanie audio WAV do lokalnego serwera Whisper (`/inference`).
-  - Natychmiastowe kopiowanie transkrypcji do schowka systemowego (`wl-copy` oraz schowek GTK).
-  - Opcja odsłuchania zarejestrowanego nagrania przed lub po skopiowaniu.
-- **Trwała historia (SQLite)**:
-  - Automatyczny zapis każdej transkrypcji w bazie SQLite (`~/.local/share/asi-echoclip/history.db`).
-  - Wbudowana wyszukiwarka historii w czasie rzeczywistym.
-  - Podwójne kliknięcie na dowolny wpis na liście natychmiast kopiuje go do schowka.
-- **Planowany rozwój (Roadmap)**:
-  - Obsługa syntezy mowy (TTS) – odczytywanie zawartości schowka na głos.
-- **Środowisko NixOS**:
-  - Gotowe środowisko deweloperskie i biblioteki w `shell.nix`.
+The project is architected for two-way voice workflows, with upcoming Text-to-Speech (TTS) integration to read highlighted clipboard text aloud.
 
 ---
 
-## 🛠️ Wymagania
+## 🚀 Key Features
 
-- **Wayland** z obsługą `wl-clipboard` (`wl-copy`).
-- Dźwięk przez **PipeWire** (`pw-record`).
-- Działający lokalny serwer **Whisper.cpp** (domyślnie nasłuchujący na porcie `8999` pod adresem `http://127.0.0.1:8999`).
+- **Global Hotkey Launch (`Super + B` / `$mainMod + B`)**:
+  - Pops up a centered, floating assistant overlay window instantly in Wayland/Hyprland.
+- **Real-Time Speech-to-Text (STT)**:
+  - Intuitive one-key control via `Spacebar` or the on-screen mic toggle.
+  - **Live Fourier Spectrum Visualizer (FFT)**: 40 frequency bands with gradient coloring and Peak Cap falloff indicators, providing instant visual feedback that the microphone is capturing audio.
+  - Live recording duration counter.
+  - Automatic audio dispatch (WAV) to the local Whisper.cpp inference endpoint (`/inference`).
+  - Seamless clipboard injection (`wl-copy` & GTK clipboard).
+  - Quick audio playback button (`▶ Play Recording`) to verify captured audio before or after transcription.
+- **Persistent SQLite History**:
+  - Automatically records all transcriptions in a local SQLite database (`~/.local/share/asi-echoclip/history.db`).
+  - Real-time search filter through past transcription records.
+  - Double-clicking any past entry immediately copies it back to the system clipboard.
+  - Full management: delete individual items or wipe the entire history.
+- **Roadmap**:
+  - Integrated local TTS (Text-to-Speech) generation: read selected text aloud on demand.
+- **NixOS Ready**:
+  - Complete, reproducible development and runtime environment defined in `shell.nix`.
 
 ---
 
-## 📦 Budowanie i uruchamianie
+## 🛠️ Prerequisites
 
-### NixOS / nix-shell (zalecane)
+- **Wayland** compositor with `wl-clipboard` (`wl-copy`) installed.
+- Audio capture via **PipeWire** (`pw-record`).
+- Running local **Whisper.cpp** HTTP server (default: `http://127.0.0.1:8999`).
+
+---
+
+## 📦 Building & Running
+
+### NixOS / nix-shell (Recommended)
 
 ```bash
 git clone https://github.com/Sticzu/asi-echoclip.git
 cd asi-echoclip
 
-# Zbudowanie programu:
+# Build using nix-shell dependencies:
 nix-shell --run "make"
 
-# Uruchomienie:
+# Launch:
 ./run.sh
 ```
 
-### Tradycyjne środowisko Linux
+### Traditional Linux Distributions
 
-Wymagane pakiety deweloperskie: `g++`, `make`, `pkg-config`, `gtkmm-3.0`, `libcurl`, `sqlite3`, `nlohmann-json`.
+Ensure development packages for `g++`, `make`, `pkg-config`, `gtkmm-3.0`, `libcurl`, `sqlite3`, and `nlohmann-json` are installed:
 
 ```bash
 make
@@ -62,25 +70,25 @@ make
 
 ---
 
-## ⌨️ Skróty klawiszowe w oknie
+## ⌨️ In-App Hotkeys
 
-| Skrót | Akcja |
+| Shortcut | Description |
 |---|---|
-| `Spacja` | Rozpocznij / zatrzymaj nagrywanie i transkrybuj |
-| `Escape` | Zamknij okno asystenta |
-| `Ctrl + C` | Kopiuj zaznaczony tekst |
+| `Space` | Start / Stop recording & trigger transcription |
+| `Escape` | Dismiss / close the assistant window |
+| `Ctrl + C` | Copy highlighted text to clipboard |
 
 ---
 
-## 🖥️ Konfiguracja Hyprland
+## 🖥️ Hyprland Integration
 
-W pliku `~/.config/hypr/hyprland.conf`:
+Add the following configuration to `~/.config/hypr/hyprland.conf`:
 
 ```ini
-# Skrót wywołania
-bind = $mainMod, B, exec, /ścieżka/do/asi-echoclip/run.sh
+# Global hotkey
+bind = $mainMod, B, exec, /path/to/asi-echoclip/run.sh
 
-# Reguły pływającego okna
+# Floating window placement rules
 windowrule = match:class ^(asi-echoclip)$, float 1
 windowrule = match:class ^(asi-echoclip)$, center 1
 windowrule = match:class ^(asi-echoclip)$, size 720 560
