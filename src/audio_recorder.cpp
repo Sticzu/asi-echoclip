@@ -123,9 +123,16 @@ bool AudioRecorder::start_recording(const std::string& output_wav_path) {
         }
         c_args.push_back(nullptr);
 
+        // 1. PipeWire: pw-record
         execvp("pw-record", c_args.data());
 
-        // Awaryjnie sox jeśli brak pw-record
+        // 2. PulseAudio: parec (standard w Debian / Ubuntu / Linux Mint XFCE)
+        execlp("parec", "parec", "--rate=16000", "--channels=1", "--format=s16le", "--raw", nullptr);
+
+        // 3. ALSA: arecord (dostępne domyślnie na każdym Linuksie)
+        execlp("arecord", "arecord", "-q", "-r", "16000", "-c", "1", "-f", "S16_LE", "-t", "raw", "-", nullptr);
+
+        // 4. SoX
         std::vector<char*> sox_args = {
             const_cast<char*>("sox"),
             const_cast<char*>("-d"),
@@ -138,6 +145,7 @@ bool AudioRecorder::start_recording(const std::string& output_wav_path) {
             nullptr
         };
         execvp("sox", sox_args.data());
+
         _exit(127);
     }
 

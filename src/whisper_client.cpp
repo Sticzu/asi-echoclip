@@ -17,6 +17,8 @@ WhisperClient::WhisperClient(std::string base_url)
         candidate_urls_.push_back(base_url_);
     }
     candidate_urls_.push_back("http://127.0.0.1:8999");
+    candidate_urls_.push_back("http://localhost:8999");
+    candidate_urls_.push_back("http://host.docker.internal:8999");
     candidate_urls_.push_back("http://sticzupc:8999");
     candidate_urls_.push_back("http://100.72.137.46:8999");
 

@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=asi-echoclip
+GenericName=Asystent mowy i schowka STT
+Comment=Błyskawiczne dyktowanie głosem i transkrypcja do schowka (Whisper.cpp)
+Exec=asi-echoclip
+Icon=asi-echoclip
+Terminal=false
+Categories=Utility;AudioVideo;Audio;
+Keywords=whisper;stt;speech;clipboard;dictation;transcription;glos;schowek;
+StartupNotify=true
+StartupWMClass=asi-echoclip

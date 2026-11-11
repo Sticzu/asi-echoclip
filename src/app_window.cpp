@@ -39,18 +39,44 @@ AppWindow::~AppWindow() {
 
 void AppWindow::load_styles() {
     auto css_provider = Gtk::CssProvider::create();
-    std::string css_path = "resources/style.css";
-    // Sprawdź czy plik istnieje lokalnie, jeśli nie sprawdź pełną ścieżkę
-    if (!std::filesystem::exists(css_path)) {
-        if (std::filesystem::exists("/home/sticzu/projekty/asi-echoclip/resources/style.css")) {
-            css_path = "/home/sticzu/projekty/asi-echoclip/resources/style.css";
-        } else {
-            css_path = "/home/sticzu/projekty/whisper-clipboard/resources/style.css";
+    std::vector<std::string> candidates = {
+        "resources/style.css",
+        "/usr/local/share/asi-echoclip/style.css",
+        "/usr/share/asi-echoclip/style.css",
+        "/home/sticzu/projekty/asi-echoclip/resources/style.css",
+        "/home/sticzu/projekty/whisper-clipboard/resources/style.css"
+    };
+
+    // Sprawdź ścieżkę względem pliku wykonywalnego
+    char exe_buf[1024];
+    ssize_t len = readlink("/proc/self/exe", exe_buf, sizeof(exe_buf) - 1);
+    if (len > 0) {
+        exe_buf[len] = '\0';
+        std::filesystem::path exe_dir = std::filesystem::path(exe_buf).parent_path();
+        candidates.insert(candidates.begin(), (exe_dir / "resources" / "style.css").string());
+        candidates.insert(candidates.begin() + 1, (exe_dir.parent_path() / "share" / "asi-echoclip" / "style.css").string());
+    }
+
+    std::string found_path;
+    for (const auto& p : candidates) {
+        if (std::filesystem::exists(p)) {
+            found_path = p;
+            break;
         }
     }
 
     try {
-        css_provider->load_from_path(css_path);
+        if (!found_path.empty()) {
+            css_provider->load_from_path(found_path);
+        } else {
+            // Wbudowany fallback CSS
+            std::string fallback_css =
+                "window { background-color: #1e1e2e; color: #cdd6f4; }"
+                "button { background-color: #313244; color: #cdd6f4; border-radius: 8px; padding: 8px 16px; }"
+                ".btn-record-idle { background-color: #1e66f5; color: white; font-weight: bold; border-radius: 12px; padding: 14px; }"
+                ".btn-record-active { background-color: #d20f39; color: white; font-weight: bold; border-radius: 12px; padding: 14px; }";
+            css_provider->load_from_data(fallback_css);
+        }
         auto screen = Gdk::Screen::get_default();
         if (screen) {
             Gtk::StyleContext::add_provider_for_screen(
@@ -59,6 +85,7 @@ void AppWindow::load_styles() {
     } catch (const Glib::Error& ex) {
         std::cerr << "Błąd ładowania CSS: " << ex.what() << std::endl;
     }
+
 }
 
 void AppWindow::setup_ui() {
@@ -311,8 +338,8 @@ void AppWindow::on_play_clicked() {
         return;
     }
 
-    // Odtwórz plik za pomocą pw-play w tle
-    std::string cmd = "pw-play \"" + temp_wav_path_ + "\" >/dev/null 2>&1 &";
+    // Odtwórz plik za pomocą pw-play, paplay, aplay lub play w tle (kompatybilne z PipeWire, PulseAudio i ALSA)
+    std::string cmd = "(pw-play \"" + temp_wav_path_ + "\" || paplay \"" + temp_wav_path_ + "\" || aplay \"" + temp_wav_path_ + "\" || play \"" + temp_wav_path_ + "\") >/dev/null 2>&1 &";
     int ret = system(cmd.c_str());
     (void)ret;
     action_status_label_.set_markup("<span foreground='#89b4fa'>▶️ Odtwarzanie nagrania...</span>");

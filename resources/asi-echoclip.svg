@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="gradBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e66f5"/>
+      <stop offset="100%" stop-color="#04a5e5"/>
+    </linearGradient>
+    <linearGradient id="gradMic" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#cdd6f4"/>
+    </linearGradient>
+  </defs>
+  <!-- Background rounded squircle -->
+  <rect x="4" y="4" width="56" height="56" rx="14" fill="url(#gradBg)"/>
+  <!-- Clipboard back subtle outline -->
+  <rect x="14" y="10" width="36" height="44" rx="4" fill="none" stroke="#ffffff" stroke-width="2" stroke-opacity="0.35"/>
+  <!-- Microphone body -->
+  <rect x="25" y="16" width="14" height="22" rx="7" fill="url(#gradMic)"/>
+  <!-- Microphone grille lines -->
+  <line x1="28" y1="22" x2="36" y2="22" stroke="#1e66f5" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="28" y1="26" x2="36" y2="26" stroke="#1e66f5" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="28" y1="30" x2="36" y2="30" stroke="#1e66f5" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Microphone arc -->
+  <path d="M 20 28 C 20 38, 44 38, 44 28" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+  <!-- Microphone stand stem -->
+  <line x1="32" y1="38" x2="32" y2="48" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+  <!-- Microphone stand base -->
+  <line x1="24" y1="48" x2="40" y2="48" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+</svg>

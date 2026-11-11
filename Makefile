@@ -24,4 +24,26 @@ $(TARGET): $(OBJS)
 clean:
 	rm -f $(OBJS) $(TARGET) whisper-clipboard
 
-.PHONY: all clean
+PREFIX ?= /usr/local
+BINDIR ?= $(PREFIX)/bin
+DATADIR ?= $(PREFIX)/share
+
+install: $(TARGET)
+	install -d $(DESTDIR)$(BINDIR)
+	install -m 755 $(TARGET) $(DESTDIR)$(BINDIR)/$(TARGET)
+	ln -sf $(TARGET) $(DESTDIR)$(BINDIR)/whisper-clipboard
+	install -d $(DESTDIR)$(DATADIR)/asi-echoclip
+	install -m 644 resources/style.css $(DESTDIR)$(DATADIR)/asi-echoclip/style.css
+	install -d $(DESTDIR)$(DATADIR)/applications
+	install -m 644 resources/asi-echoclip.desktop $(DESTDIR)$(DATADIR)/applications/asi-echoclip.desktop
+	install -d $(DESTDIR)$(DATADIR)/icons/hicolor/scalable/apps
+	install -m 644 resources/asi-echoclip.svg $(DESTDIR)$(DATADIR)/icons/hicolor/scalable/apps/asi-echoclip.svg
+
+uninstall:
+	rm -f $(DESTDIR)$(BINDIR)/$(TARGET)
+	rm -f $(DESTDIR)$(BINDIR)/whisper-clipboard
+	rm -rf $(DESTDIR)$(DATADIR)/asi-echoclip
+	rm -f $(DESTDIR)$(DATADIR)/applications/asi-echoclip.desktop
+	rm -f $(DESTDIR)$(DATADIR)/icons/hicolor/scalable/apps/asi-echoclip.svg
+
+.PHONY: all clean install uninstall
