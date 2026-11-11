@@ -13,8 +13,7 @@ fi
 SHORTCUT_PROP="/commands/custom/<Super>b"
 
 echo "Konfigurowanie skrótu Super+B -> $BIN w XFCE4..."
-xfconf-query -c xfce4-keyboard-shortcuts -p "$SHORTCUT_PROP" -n -t string -s "$BIN" 2>/dev/null || \
-xfconf-query -c xfce4-keyboard-shortcuts -p "$SHORTCUT_PROP" -s "$BIN"
+xfconf-query -c xfce4-keyboard-shortcuts -p "$SHORTCUT_PROP" -s "$BIN" --create -t string
 
 echo "✅ Pomyślnie ustawiono skrót Super+B dla asi-echoclip w XFCE4!"
-echo "Możesz go przetestować wciskając Super+B na klawiaturze."
+echo "Wciśnij Super+B na klawiaturze, aby wywołać okno asystenta."

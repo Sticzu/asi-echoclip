@@ -69,12 +69,28 @@ void AppWindow::load_styles() {
         if (!found_path.empty()) {
             css_provider->load_from_path(found_path);
         } else {
-            // Wbudowany fallback CSS
-            std::string fallback_css =
-                "window { background-color: #1e1e2e; color: #cdd6f4; }"
-                "button { background-color: #313244; color: #cdd6f4; border-radius: 8px; padding: 8px 16px; }"
-                ".btn-record-idle { background-color: #1e66f5; color: white; font-weight: bold; border-radius: 12px; padding: 14px; }"
-                ".btn-record-active { background-color: #d20f39; color: white; font-weight: bold; border-radius: 12px; padding: 14px; }";
+            // Pełny wbudowany styl CSS (gwarancja wyglądu nawet bez zewnętrznego pliku)
+            const char* fallback_css = R"css(
+window { background-color: #1e1e2e; color: #cdd6f4; font-family: system-ui, -apple-system, sans-serif; }
+headerbar { background: #181825; border-bottom: 1px solid #313244; }
+button { background-color: #313244; color: #cdd6f4; border-radius: 8px; border: 1px solid #45475a; padding: 8px 16px; font-weight: 500; }
+button:hover { background-color: #45475a; border-color: #585b70; }
+button:active { background-color: #585b70; }
+.btn-record-idle { background: linear-gradient(135deg, #1e66f5, #04a5e5); color: #ffffff; font-size: 16px; font-weight: bold; padding: 16px 24px; border-radius: 12px; border: none; }
+.btn-record-idle:hover { background: linear-gradient(135deg, #2a72ff, #1cb2f0); }
+.btn-record-active { background: linear-gradient(135deg, #d20f39, #e64553); color: #ffffff; font-size: 16px; font-weight: bold; padding: 16px 24px; border-radius: 12px; border: none; }
+.btn-record-processing { background: linear-gradient(135deg, #df8e1d, #fe640b); color: #ffffff; font-size: 16px; font-weight: bold; padding: 16px 24px; border-radius: 12px; border: none; }
+.btn-copy { background: linear-gradient(135deg, #40a02b, #a6e3a1); color: #11111b; font-weight: bold; }
+.btn-copy:hover { background: linear-gradient(135deg, #50b03b, #b6f3b1); }
+textview text { background-color: #181825; color: #cdd6f4; border: 1px solid #313244; border-radius: 8px; padding: 10px; font-size: 14px; }
+treeview { background-color: #181825; color: #cdd6f4; border-radius: 6px; }
+treeview:selected { background-color: #45475a; color: #ffffff; }
+entry { background-color: #181825; color: #cdd6f4; border: 1px solid #313244; border-radius: 8px; padding: 8px; }
+.badge-online { color: #a6e3a1; font-weight: bold; font-size: 12px; }
+.badge-offline { color: #f38ba8; font-weight: bold; font-size: 12px; }
+.status-toast { color: #a6e3a1; font-weight: bold; font-size: 13px; padding: 4px 8px; }
+.timer-label { font-size: 26px; font-family: monospace; font-weight: bold; color: #f9e2af; }
+)css";
             css_provider->load_from_data(fallback_css);
         }
         auto screen = Gdk::Screen::get_default();

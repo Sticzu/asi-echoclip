@@ -45,11 +45,15 @@ Projekt został zaprojektowany z myślą o dalszym rozwoju w kierunku pełnego d
 
 ### 1. Debian / Ubuntu / Linux Mint / XFCE4
 
-Automatyczny instalator zależności i kompilacja:
+**Instalacja jednym poleceniem (bez wymogu git clone):**
 ```bash
-./debian-install.sh
+curl -sSL https://raw.githubusercontent.com/Sticzu/asi-echoclip/main/debian-install.sh | bash
 ```
 
+Lub ręcznie z pobranego repozytorium:
+```bash
+./debian-install.sh -y
+```
 Ręczna instalacja pakietów:
 ```bash
 sudo apt update

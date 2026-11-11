@@ -51,11 +51,15 @@ The project is architected for two-way voice workflows, with upcoming Text-to-Sp
 
 ### 1. Debian / Ubuntu / Linux Mint / XFCE4
 
-Automated dependency installation and build:
+**One-line automated installation (no git clone required):**
 ```bash
-./debian-install.sh
+curl -sSL https://raw.githubusercontent.com/Sticzu/asi-echoclip/main/debian-install.sh | bash
 ```
 
+Or manually within the cloned repository:
+```bash
+./debian-install.sh -y
+```
 Or manual build:
 ```bash
 sudo apt update
